@@ -94,6 +94,7 @@
 					<img id="HAWK_logo" src="/public/img/logo.svg" alt="">
 				</div>
 				<div class="menu">
+
 					<details>
 						<summary>
 							<h3><?php echo $translation["Conversation"]; ?>
@@ -106,7 +107,7 @@
 						<svg viewBox="0 0 24 24"><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2M20 16H5.2L4 17.2V4H20V16Z" /></svg>
 						<?php echo $translation["Chat"]; ?>
 					</div>
-
+                    <!--
 					<details>
 						<summary>
 							<h3><?php echo $translation["VirtualOffice"]; ?>
@@ -174,7 +175,7 @@
 						<div class="submenu-item" onclick="load(this, 'interview.php')"><?php echo $translation["InterviewQuestions"]; ?></div>
 						<div class="submenu-item" onclick="load(this, 'prototyping.php')"><?php echo $translation["Prototyping"]; ?></div>
 					</div>
-
+    -->
 				</div>
 				<div class="settings-btn" onclick="toggleSettingsPanel(true)">
 					<svg  viewBox="0 0 24 24" width="24">

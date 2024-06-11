@@ -70,19 +70,19 @@
             $ldapUri = $ldap_host . ':' . $ldap_port;
             $ldapConn = ldap_connect($ldapUri);
             if (!$ldapConn) {
-                // echo "Unable to connect to LDAP server.";
+                echo "Unable to connect to LDAP server.";
                 return false;
             }
             
             // Set LDAP protocol version
             if (!ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-                // echo "Unable to set LDAP protocol version.";
+                echo "Unable to set LDAP protocol version.";
                 return false;
             }
         
             // Bind to LDAP server
             if (!@ldap_bind($ldapConn, $ldap_binddn, $ldap_bindpw)) {
-                // echo "Unable to bind to LDAP server with provided DN and password.";
+                echo "Unable to bind to LDAP server with provided DN and password.";
                 return false;
             }
 
@@ -128,7 +128,8 @@
 
             // Set session variables
             $_SESSION['username'] = $initials;
-            $_SESSION['employeetype'] = $info[0]["employeetype"][0];
+            $_SESSION['employeetype'] = "Tester";
+            //$_SESSION['employeetype'] = $info[0]["employeetype"][0];
             return true;
         }
 
