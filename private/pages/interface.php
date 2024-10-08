@@ -11,7 +11,7 @@
 	$translation = $_SESSION['translation'];
     
 	if (!isset($_SESSION['username'])) {
-		header("Location: login.php");
+		header("Location: login");
 		exit;
 	}
 
@@ -50,30 +50,30 @@
 	<title>HAWKI</title>
 
 
-	<link rel="stylesheet" href="/public/style/style.css">
-	<link rel="stylesheet" href="/public/style/interface_style.css">
-	<link rel="stylesheet" href="/public/style/settings_style.css">
+	<link rel="stylesheet" href="public/style/style.css">
+	<link rel="stylesheet" href="public/style/interface_style.css">
+	<link rel="stylesheet" href="public/style/settings_style.css">
 
 	<!-- COMMON SCRIPTS -->
-	<script src="/public/js/scripts.js"></script>
-	<script src="/public/js/interface_functions.js"></script>
-	<script src="/public/js/syntax_modifier.js"></script>
+	<script src="public/js/scripts.js"></script>
+	<script src="public/js/interface_functions.js"></script>
+	<script src="public/js/syntax_modifier.js"></script>
 
 	<!-- HLJS -->
-	<link id="hljsTheme" type="text/css" rel="stylesheet" href="/public/assets/highlightJS/hljsLight.css">
-	<script src="/public/assets/highlightJS/highlight.min.js"></script>
-	<script src="/public/assets/highlightJS/go.min.js"></script>
+	<link id="hljsTheme" type="text/css" rel="stylesheet" href="public/assets/highlightJS/hljsLight.css">
+	<script src="public/assets/highlightJS/highlight.min.js"></script>
+	<script src="public/assets/highlightJS/go.min.js"></script>
 
 	<!-- KaTex detects and renders math formulas -->
-	<link rel="stylesheet" href="/public/assets/katex/katex.min.css">
-	<script defer src="/public/assets/katex/katex.min.js"></script>
-	<script defer src="/public/assets/katex/contrib/auto-render.min.js"></script>
+	<link rel="stylesheet" href="public/assets/katex/katex.min.css">
+	<script defer src="public/assets/katex/katex.min.js"></script>
+	<script defer src="public/assets/katex/contrib/auto-render.min.js"></script>
 
 	<!-- Jquery v3.7.1 -->
-	<script src="/public/assets/jquery/jquery.min.js"></script>
+	<script src="public/assets/jquery/jquery.min.js"></script>
 
-	<script src="/public/assets/lz-string.min.js"></script>
-	<script src="/public/assets/crypto-js.min.js"></script>
+	<script src="public/assets/lz-string.min.js"></script>
+	<script src="public/assets/crypto-js.min.js"></script>
 
 
 	<!-- TO PREVENT FOUC WHEN RELOADING THE PAGE IN DARK MODE
@@ -91,10 +91,9 @@
 		<div class="wrapper">
 			<div class="sidebar">
 				<div class="logo">
-					<img id="HAWK_logo" src="/public/img/logo.svg" alt="">
+					<img id="HAWK_logo" src="public/img/logo.svg" alt="">
 				</div>
 				<div class="menu">
-
 					<details>
 						<summary>
 							<h3><?php echo $translation["Conversation"]; ?>
@@ -107,7 +106,7 @@
 						<svg viewBox="0 0 24 24"><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2M20 16H5.2L4 17.2V4H20V16Z" /></svg>
 						<?php echo $translation["Chat"]; ?>
 					</div>
-                    <!--
+
 					<details>
 						<summary>
 							<h3><?php echo $translation["VirtualOffice"]; ?>
@@ -175,7 +174,7 @@
 						<div class="submenu-item" onclick="load(this, 'interview.php')"><?php echo $translation["InterviewQuestions"]; ?></div>
 						<div class="submenu-item" onclick="load(this, 'prototyping.php')"><?php echo $translation["Prototyping"]; ?></div>
 					</div>
-    -->
+
 				</div>
 				<div class="settings-btn" onclick="toggleSettingsPanel(true)">
 					<svg  viewBox="0 0 24 24" width="24">
@@ -190,8 +189,8 @@
 					<br>
 					<!-- CHANGE THIS PART TO ONCLICK EVENT TO LOAD THE PAGE IN MESSAGES PANEL.
 						DON'T FORGET TO ADD A PROPER PAGE IN VIEWS FOLDER. -->
-					<a href="/dataprotection"><?php echo $translation["DataSecurity"]; ?></a>
-					<a href="/impressum" target="_blank"><?php echo $translation["Impressum"]; ?></a>
+					<a href="dataprotection"><?php echo $translation["DataSecurity"]; ?></a>
+					<a href="impressum" target="_blank"><?php echo $translation["Impressum"]; ?></a>
 				</div>
 
 			</div>
@@ -203,20 +202,26 @@
 				<!-- THE VIEW WILL BE LOADED HERE... -->
 			</div>
 
-			<!-- TOGGLES BETWEEN INPUT_CONTAINER AND USERPOST-CONTAINER FOR USERS FEEDBACK MODULE -->
 			<div class="input-container">
 				<div class="input">
 
 					<div class="input-controlbar">
-						<select id="model-selector" onchange="OnDropdownModelSelection()">
-							<option value="gpt-4o">OpenAI GPT-4o</option>
-							<option value="gpt-4-turbo-preview">OpenAI GPT-4-Turbo</option>
-							<option value="intel-neural-chat-7b">Intel-neural-chat-7b</option>
-							<option value="meta-llama-3-70b-instruct">meta-llama-3-70b-instruct</option>
-							<option value="mixtral-8x7b-instruct">Mixtral-8x7b-instruct</option>
-							<option value="qwen1.5-72b-chat">Qwen1.5-72b-chat</option>
-						</select>
-
+						<?php
+							if(isset($env) ? array_key_exists("MODEL_SELECTOR_ACTIVATION", $env) && $env["MODEL_SELECTOR_ACTIVATION"] === "true" : strtolower(getenv("MODEL_SELECTOR_ACTIVATION")) === "true"){
+								echo
+									'<select id="model-selector" onchange="OnDropdownModelSelection()">
+										<option value="gpt-4o">OpenAI GPT-4o</option>
+										<option value="meta-llama-3.1-8b-instruct">meta-llama-3.1-8b-instruct</option>
+										<option value="meta-llama-3.1-70b-instruct">meta-llama-3.1-70b-instruct</option>
+										<option value="llama-3-sauerkrautlm-70b-instruct">Llama 3 70B Sauerkraut</option>
+										<option value="mixtral-8x7b-instruct">Mixtral-8x7b-instruct</option>
+										<option value="qwen2-72b-instruct">Qwen 2 72B Instruct</option>
+									</select>';
+							}
+							else{
+								echo '<div></div>';
+							}
+						?>
 						<div id="system-prompt-btn" onclick="ToggleSystemPrompt(true)">
 							<svg viewBox="0 0 50 50"><path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z"/></svg>
 						</div>
@@ -282,7 +287,7 @@
 
 						<p >
 							<span>&Prime;</span>
-							<span contenteditable="true" id="system-prompt"></span>
+							<span contenteditable="true" id="system-prompt" oninput="calculateSystemPromptMaxHeight()"></span>
 							<span>&rdquo;</span>
 						</p>
 					</div>
@@ -379,14 +384,14 @@
 
 
 
-	let activeModel = "";
+	let activeModel = "gpt-4o";
 	let streamAPI = "";
 	window.addEventListener('DOMContentLoaded', (event) => {
 		if(localStorage.getItem("definedModel")){
 			SwitchModel(localStorage.getItem("definedModel"));
 		}
 		else{
-			SwitchModel("gpt-4-turbo-preview");
+			SwitchModel("gpt-4o");
 		}
 		document.getElementById("model-selector").value = activeModel;
     });
@@ -401,15 +406,15 @@
 		activeModel = model;
 		switch(activeModel){
 			case('gpt-4o'):
-			case('gpt-4-turbo-preview'):
-				streamAPI = "/api/stream-api";
+				streamAPI = "api/stream-api";
 				break;
 
-			case('intel-neural-chat-7b'):
-			case('meta-llama-3-70b-instruct'):
+			case('meta-llama-3.1-8b-instruct'):
+			case('meta-llama-3.1-70b-instruct'):
+			case('llama-3-sauerkrautlm-70b-instruct'):
 			case('mixtral-8x7b-instruct'):
-			case('qwen1.5-72b-chat'):
-				streamAPI = '/api/GWDG-api';
+			case('qwen2-72b-instruct'):
+				streamAPI = 'api/GWDG-api';
 				break;
 		}
 	}
@@ -717,6 +722,30 @@
 				table.parentNode.replaceChild(textNode, table);
 			});
 
+			// Remove code language from copy content
+			if(clone.tagName === "CODE") {
+				const firstChildNode = clone.firstChild;
+				const lastChildNode = clone.lastChild;
+
+				if(firstChildNode && firstChildNode.nodeName === "#text") {
+					// Remove the first node, as it contains the code language
+					// It is possible that the code language is followed by actual code, so check for that
+					if(firstChildNode.textContent.includes("\n")) {
+						firstChildNode.textContent = firstChildNode.textContent.split("\n")[1];
+					} else {
+						clone.removeChild(firstChildNode);
+					}
+				}
+
+				if (lastChildNode && lastChildNode.nodeName === "#text") {
+					// In some cases, there might be markdown content at the end of the code block due to formatting errors
+					const re = "\n?```"
+					if(lastChildNode.textContent.match(re)) {
+						lastChildNode.textContent = lastChildNode.textContent.replace("\n```", "");
+					}
+				}
+			}
+
 
 		// Get the text content of the modified clone
 		const msgTxt = clone.textContent.trim();
@@ -772,7 +801,7 @@
 		message.content = inputField.value.trim();
 
 		// const feedback_send = "../private/app/php/feedback_send.php";
-		const feedback_send = "/api/feedback_send"
+		const feedback_send = "api/feedback_send"
 		const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 		fetch(feedback_send, {
@@ -803,7 +832,7 @@
 
 		const pureId = element.dataset.id.replace('.json', ''); // assuming all IDs end with '.json'
 		const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-		const submit_vote = "/api/submit_vote";
+		const submit_vote = "api/submit_vote";
 
 		fetch(submit_vote, {
 			method: 'POST',
